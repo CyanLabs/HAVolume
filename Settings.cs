@@ -16,17 +16,15 @@ namespace HA_Volume
 
         private void cmbMonitor_SelectedIndexChanged(object sender, EventArgs e)
         {
-            int x;
-            int y;
-            x = Screen.AllScreens[cmbMonitor.SelectedIndex].Bounds.Location.X + (Screen.AllScreens[1].WorkingArea.Width / 2 - this.Width);
-            y = Screen.AllScreens[cmbMonitor.SelectedIndex].Bounds.Location.Y + (Screen.AllScreens[1].WorkingArea.Height / 2 - this.Height);
-            Location = new Point(x, y);
-            this.Location = Screen.AllScreens[cmbMonitor.SelectedIndex].WorkingArea.Location;
+            int x = Screen.AllScreens[cmbMonitor.SelectedIndex].Bounds.Location.X + Screen.AllScreens[cmbMonitor.SelectedIndex].WorkingArea.Width /2 - (this.Width /2);
+            int y = Screen.AllScreens[cmbMonitor.SelectedIndex].Bounds.Location.Y + Screen.AllScreens[cmbMonitor.SelectedIndex].WorkingArea.Height /2 - (this.Height /2 );
+            this.Location = new Point(x, y);
             Properties.Settings.Default.Monitor = cmbMonitor.SelectedIndex;
         }
 
         private void Settings_Load(object sender, EventArgs e)
         {
+            lblVersion.Text = Application.ProductVersion;
             Screens = System.Windows.Forms.Screen.AllScreens;
             foreach (Screen s in Screens)
             {
@@ -66,9 +64,12 @@ namespace HA_Volume
         private void cmbSource_Click(object sender, EventArgs e)
         {
             HAData = HAAPI.GET(Properties.Settings.Default.HAEntity);
-            if (HAData["attributes"].ContainsKey("source_list")) {
-                foreach (string source in HAData["attributes"]["source_list"]) {
+            if (HAData["attributes"].ContainsKey("source_list"))
+            {
+                foreach (string source in HAData["attributes"]["source_list"])
+                {
                     if (!cmbSource.Items.Contains(source)) cmbSource.Items.Add(source);
+
                 }
             }
         }

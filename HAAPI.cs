@@ -7,14 +7,22 @@ using System.Windows.Forms;
 
 namespace HA_Volume
 {
+    /// <summary>
+    /// Helper class to simplify sending and retrieving of HA API RESTful functions
+    /// </summary>
     public class HAAPI
     {
-        
-        public static void POST(string servicetype, string servicename, string json)
+        /// <summary>
+        /// Sends a HTTP POST request to send commands to the media_player.
+        /// </summary>      
+        /// <param name="servicename">HA service name e.g volume_up or toggle</param>
+        /// <param name="json">Some services require additional json to action the service</param>
+        public static void POST(string servicename, [Optional] string json)
         {
             try
             {
-                var httpWebRequest = (HttpWebRequest)WebRequest.Create(Properties.Settings.Default.HAURL + "/api/services/" + servicetype + "/" + servicename);
+                if (String.IsNullOrEmpty(json)) json = new JavaScriptSerializer().Serialize(new { entity_id = Properties.Settings.Default.HAEntity });
+                var httpWebRequest = (HttpWebRequest)WebRequest.Create(Properties.Settings.Default.HAURL + "/api/services/media_player/" + servicename);
                 httpWebRequest.ContentType = "application/json";
                 httpWebRequest.Method = "POST";
                 httpWebRequest.Headers.Add("Authorization", "Bearer " + Properties.Settings.Default.HAToken);
@@ -40,6 +48,10 @@ namespace HA_Volume
             }
         }
 
+        /// <summary>
+        /// Sends a HTTP GET request to HA to retrieve attributes.
+        /// </summary>      
+        /// <param name="entity">Optional: filter it to a specific entity.</param>
         public static dynamic GET([Optional] string entity)
         {
             JavaScriptSerializer jsonSerializer = new JavaScriptSerializer();
@@ -47,9 +59,12 @@ namespace HA_Volume
             {
                 dynamic httpWebRequest;
                 var result = "";
-                if (String.IsNullOrEmpty(entity)) {
+                if (String.IsNullOrEmpty(entity))
+                {
                     httpWebRequest = (HttpWebRequest)WebRequest.Create(Properties.Settings.Default.HAURL + "/api/states");
-                } else {
+                }
+                else
+                {
                     httpWebRequest = (HttpWebRequest)WebRequest.Create(Properties.Settings.Default.HAURL + "/api/states/" + entity);
                 }
                 httpWebRequest.ContentType = "application/json";
@@ -64,14 +79,82 @@ namespace HA_Volume
                 }
                 return jsonSerializer.Deserialize<dynamic>((result));
             }
-            catch (WebException e)
+            catch (WebException webex)
             {
-                if (e.Status == WebExceptionStatus.ProtocolError)
+                if (webex.Status == WebExceptionStatus.ProtocolError)
                 {
-                    MessageBox.Show("Connection to Home Assistant has been lost, please check connection and try again.", "HA Volume - Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);    
+                    MessageBox.Show("Connection to Home Assistant has been lost, please check connection and try again.", "HA Volume - Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
                 return 99;
             }
         }
+        /// <summary>
+        /// Toggles Power of the media_player.
+        /// </summary>
+        public static void Power() => POST("toggle");
+
+        /// <summary>
+        /// Increases volume of the media_player.
+        /// </summary>
+        public static void Volume_Up() => POST("volume_up");
+
+        /// <summary>
+        /// Decreases volume of the media_player.
+        /// </summary>
+        public static void Volume_Down() => POST("volume_down");
+
+        /// <summary>
+        /// Sets volume of the media_player.
+        /// </summary>
+        public static void Volume_Set(decimal volume)
+        {
+            string json = new JavaScriptSerializer().Serialize(new
+            {
+
+                entity_id = Properties.Settings.Default.HAEntity,
+                volume_level = volume
+            });
+            POST("volume_set", json);
+        }
+        /// <summary>
+        /// Detects mute state and toggles mute of the media_player.
+        /// </summary>      
+        /// <param name="state">Pass the variable which contains True/False of the media_player mute state</param>
+        public static void Volume_Mute(bool state)
+        {
+            string json = new JavaScriptSerializer().Serialize(new
+            {
+                entity_id = Properties.Settings.Default.HAEntity,
+                is_volume_muted = !state
+            });
+            POST("volume_mute", json);
+        }
+
+        /// <summary>
+        /// Changes source of media_player, if no source set will use "defaultinput"
+        /// </summary>      
+        /// <param name="state">Optional: string containing the source you want to switch to.</param>
+        public static void Set_Input([Optional] string source)
+        {
+            string json;
+            if (String.IsNullOrEmpty(source))
+            {
+                json = new JavaScriptSerializer().Serialize(new
+                {
+                    entity_id = Properties.Settings.Default.HAEntity,
+                    source = Properties.Settings.Default.DefaultInput
+                });
+            }
+            else
+            {
+                json = new JavaScriptSerializer().Serialize(new
+                {
+                    entity_id = Properties.Settings.Default.HAEntity,
+                    source = source
+                });
+            }
+            POST("select_source", json);
+        }
     }
 }
+        

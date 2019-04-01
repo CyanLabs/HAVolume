@@ -121,7 +121,7 @@ namespace HA_Volume.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool AutoOn {
             get {
                 return ((bool)(this["AutoOn"]));
@@ -133,7 +133,7 @@ namespace HA_Volume.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool AutoOff {
             get {
                 return ((bool)(this["AutoOff"]));
@@ -145,7 +145,7 @@ namespace HA_Volume.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool ShutdownResume {
             get {
                 return ((bool)(this["ShutdownResume"]));
@@ -164,6 +164,30 @@ namespace HA_Volume.Properties {
             }
             set {
                 this["OSD"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool DisableMute {
+            get {
+                return ((bool)(this["DisableMute"]));
+            }
+            set {
+                this["DisableMute"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("2")]
+        public int PollRate {
+            get {
+                return ((int)(this["PollRate"]));
+            }
+            set {
+                this["PollRate"] = value;
             }
         }
     }
