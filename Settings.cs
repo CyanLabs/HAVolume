@@ -8,12 +8,14 @@ namespace HA_Volume
     public partial class Settings : Form
     {
         private System.Windows.Forms.Screen[] Screens;
+        dynamic HAData;
 
         public Settings()
         {
             InitializeComponent();
         }
 
+        //Dropdown to change which monitor the OSD will show on, it will also change the location of the settings window to "preview" which monitor it will be.
         private void cmbMonitor_SelectedIndexChanged(object sender, EventArgs e)
         {
             int x = Screen.AllScreens[cmbMonitor.SelectedIndex].Bounds.Location.X + Screen.AllScreens[cmbMonitor.SelectedIndex].WorkingArea.Width /2 - (this.Width /2);
@@ -22,6 +24,7 @@ namespace HA_Volume
             Properties.Settings.Default.Monitor = cmbMonitor.SelectedIndex;
         }
 
+        //Populates the dropdown with all detected monitors and sets the application version label.
         private void Settings_Load(object sender, EventArgs e)
         {
             lblVersion.Text = Application.ProductVersion;
@@ -34,19 +37,21 @@ namespace HA_Volume
             cmbMonitor.SelectedIndex = Properties.Settings.Default.Monitor;
         }
 
+        //Restarts application for changes to take afect.
         private void Settings_FormClosing(object sender, FormClosingEventArgs e)
         {
             Properties.Settings.Default.Save();
             Application.Restart();
         }
 
+        //Loads my website.
         private void lblCopyright_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             System.Diagnostics.Process.Start("https://cyanlabs.net/applications/ha-volume/");
         }
 
-        dynamic HAData;
 
+        //Populates the entity dropdown with all HA media_player entities.
         private void cmbEntity_Click(object sender, EventArgs e)
         {
             HAData = HAAPI.GET();
@@ -61,6 +66,7 @@ namespace HA_Volume
             }
         }
 
+        //Populates the source dropdown with all available HA sources.
         private void cmbSource_Click(object sender, EventArgs e)
         {
             HAData = HAAPI.GET(Properties.Settings.Default.HAEntity);
@@ -74,6 +80,7 @@ namespace HA_Volume
             }
         }
 
+        //Adds/removes the registry key which makes HA Volume launch on windows startup.
         private void chkStartup_CheckedChanged(object sender, EventArgs e)
         {
             var key = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
