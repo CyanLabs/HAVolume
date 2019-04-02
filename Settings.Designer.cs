@@ -178,11 +178,11 @@
             // lblToken
             // 
             this.lblToken.AutoSize = true;
-            this.lblToken.Location = new System.Drawing.Point(15, 53);
+            this.lblToken.Location = new System.Drawing.Point(10, 53);
             this.lblToken.Name = "lblToken";
-            this.lblToken.Size = new System.Drawing.Size(75, 13);
+            this.lblToken.Size = new System.Drawing.Size(79, 13);
             this.lblToken.TabIndex = 0;
-            this.lblToken.Text = "Bearer Token:";
+            this.lblToken.Text = "Access Token:";
             this.lblToken.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // lblURL

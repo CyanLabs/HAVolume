@@ -124,4 +124,7 @@
     <Content Include="Saki-NuoveXT-Actions-player-volume.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>if $(ConfigurationName) == Release ("C:\Program Files (x86)\NSIS\makensis.exe" /DProductName="$(TargetName)" $(ProjectDir)cyanlabs_setup.nsi)</PostBuildEvent>
+  </PropertyGroup>
 </Project>

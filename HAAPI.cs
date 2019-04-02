@@ -43,7 +43,7 @@ namespace HA_Volume
             {
                 if (e.Status == WebExceptionStatus.ProtocolError)
                 {
-                    MessageBox.Show("Connection to Home Assistant has been lost, please check connection and try again.", "HA Volume - Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Unable to communicate with Home Assistant correctly, please confirm Home Assistant is running and that your settings are correct and that the entity you have selected is showing in Home Assistant.", "HA Volume - Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
         }
