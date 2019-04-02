@@ -31,36 +31,36 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Settings));
             this.lblTitle = new System.Windows.Forms.Label();
             this.grpHA = new System.Windows.Forms.GroupBox();
+            this.lblPoll10 = new System.Windows.Forms.Label();
+            this.lblPoll1 = new System.Windows.Forms.Label();
+            this.trackPoll = new System.Windows.Forms.TrackBar();
+            this.cmbEntity = new System.Windows.Forms.ComboBox();
+            this.txtToken = new System.Windows.Forms.TextBox();
+            this.txtURL = new System.Windows.Forms.TextBox();
+            this.lblPoll = new System.Windows.Forms.Label();
             this.lblEntity = new System.Windows.Forms.Label();
             this.lblToken = new System.Windows.Forms.Label();
             this.lblURL = new System.Windows.Forms.Label();
             this.imgLogo = new System.Windows.Forms.PictureBox();
             this.grpGeneral = new System.Windows.Forms.GroupBox();
-            this.lblSource = new System.Windows.Forms.Label();
-            this.cmbMonitor = new System.Windows.Forms.ComboBox();
-            this.lblMonitor = new System.Windows.Forms.Label();
-            this.lblCopyright = new System.Windows.Forms.LinkLabel();
-            this.lblVersion = new System.Windows.Forms.Label();
-            this.lblPoll = new System.Windows.Forms.Label();
-            this.lblPoll1 = new System.Windows.Forms.Label();
-            this.lblPoll10 = new System.Windows.Forms.Label();
             this.chkOSD = new System.Windows.Forms.CheckBox();
             this.chkMute = new System.Windows.Forms.CheckBox();
             this.chkShutdown = new System.Windows.Forms.CheckBox();
             this.chkAutoOff = new System.Windows.Forms.CheckBox();
             this.chkAutoOn = new System.Windows.Forms.CheckBox();
             this.cmbSource = new System.Windows.Forms.ComboBox();
+            this.lblSource = new System.Windows.Forms.Label();
             this.chkStartup = new System.Windows.Forms.CheckBox();
             this.chkUpdate = new System.Windows.Forms.CheckBox();
+            this.cmbMonitor = new System.Windows.Forms.ComboBox();
+            this.lblMonitor = new System.Windows.Forms.Label();
             this.chkKeybinds = new System.Windows.Forms.CheckBox();
-            this.trackPoll = new System.Windows.Forms.TrackBar();
-            this.cmbEntity = new System.Windows.Forms.ComboBox();
-            this.txtToken = new System.Windows.Forms.TextBox();
-            this.txtURL = new System.Windows.Forms.TextBox();
+            this.lblCopyright = new System.Windows.Forms.LinkLabel();
+            this.lblVersion = new System.Windows.Forms.Label();
             this.grpHA.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackPoll)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imgLogo)).BeginInit();
             this.grpGeneral.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackPoll)).BeginInit();
             this.SuspendLayout();
             // 
             // lblTitle
@@ -95,6 +95,75 @@
             this.grpHA.TabIndex = 30;
             this.grpHA.TabStop = false;
             this.grpHA.Text = "Home Assistant Settings";
+            // 
+            // lblPoll10
+            // 
+            this.lblPoll10.AutoSize = true;
+            this.lblPoll10.Location = new System.Drawing.Point(290, 142);
+            this.lblPoll10.Name = "lblPoll10";
+            this.lblPoll10.Size = new System.Drawing.Size(64, 13);
+            this.lblPoll10.TabIndex = 5;
+            this.lblPoll10.Text = "10 Seconds";
+            // 
+            // lblPoll1
+            // 
+            this.lblPoll1.AutoSize = true;
+            this.lblPoll1.Location = new System.Drawing.Point(93, 142);
+            this.lblPoll1.Name = "lblPoll1";
+            this.lblPoll1.Size = new System.Drawing.Size(53, 13);
+            this.lblPoll1.TabIndex = 4;
+            this.lblPoll1.Text = "1 Second";
+            // 
+            // trackPoll
+            // 
+            this.trackPoll.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::HA_Volume.Properties.Settings.Default, "PollRate", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.trackPoll.Location = new System.Drawing.Point(104, 108);
+            this.trackPoll.Minimum = 1;
+            this.trackPoll.Name = "trackPoll";
+            this.trackPoll.Size = new System.Drawing.Size(234, 45);
+            this.trackPoll.TabIndex = 4;
+            this.trackPoll.Value = global::HA_Volume.Properties.Settings.Default.PollRate;
+            // 
+            // cmbEntity
+            // 
+            this.cmbEntity.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::HA_Volume.Properties.Settings.Default, "HAEntity", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.cmbEntity.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbEntity.FormattingEnabled = true;
+            this.cmbEntity.Location = new System.Drawing.Point(96, 76);
+            this.cmbEntity.Name = "cmbEntity";
+            this.cmbEntity.Size = new System.Drawing.Size(249, 21);
+            this.cmbEntity.TabIndex = 3;
+            this.cmbEntity.Text = global::HA_Volume.Properties.Settings.Default.HAEntity;
+            this.cmbEntity.Click += new System.EventHandler(this.cmbEntity_Click);
+            // 
+            // txtToken
+            // 
+            this.txtToken.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::HA_Volume.Properties.Settings.Default, "HAToken", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.txtToken.Location = new System.Drawing.Point(96, 50);
+            this.txtToken.Name = "txtToken";
+            this.txtToken.Size = new System.Drawing.Size(249, 20);
+            this.txtToken.TabIndex = 2;
+            this.txtToken.Text = global::HA_Volume.Properties.Settings.Default.HAToken;
+            // 
+            // txtURL
+            // 
+            this.txtURL.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::HA_Volume.Properties.Settings.Default, "HAURL", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.txtURL.Location = new System.Drawing.Point(96, 23);
+            this.txtURL.Name = "txtURL";
+            this.txtURL.Size = new System.Drawing.Size(249, 20);
+            this.txtURL.TabIndex = 1;
+            this.txtURL.Text = global::HA_Volume.Properties.Settings.Default.HAURL;
+            this.txtURL.Leave += new System.EventHandler(this.txtURL_Leave);
+            // 
+            // lblPoll
+            // 
+            this.lblPoll.AutoSize = true;
+            this.lblPoll.Location = new System.Drawing.Point(11, 112);
+            this.lblPoll.Name = "lblPoll";
+            this.lblPoll.Size = new System.Drawing.Size(82, 13);
+            this.lblPoll.TabIndex = 0;
+            this.lblPoll.Text = "Polling Interval: ";
+            this.lblPoll.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // lblEntity
             // 
@@ -138,6 +207,8 @@
             // 
             // grpGeneral
             // 
+            this.grpGeneral.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.grpGeneral.Controls.Add(this.chkOSD);
             this.grpGeneral.Controls.Add(this.chkMute);
             this.grpGeneral.Controls.Add(this.chkShutdown);
@@ -150,94 +221,12 @@
             this.grpGeneral.Controls.Add(this.cmbMonitor);
             this.grpGeneral.Controls.Add(this.lblMonitor);
             this.grpGeneral.Controls.Add(this.chkKeybinds);
-            this.grpGeneral.Location = new System.Drawing.Point(12, 253);
+            this.grpGeneral.Location = new System.Drawing.Point(12, 250);
             this.grpGeneral.Name = "grpGeneral";
-            this.grpGeneral.Size = new System.Drawing.Size(360, 172);
+            this.grpGeneral.Size = new System.Drawing.Size(360, 168);
             this.grpGeneral.TabIndex = 31;
             this.grpGeneral.TabStop = false;
             this.grpGeneral.Text = "General Settings";
-            // 
-            // lblSource
-            // 
-            this.lblSource.AutoSize = true;
-            this.lblSource.Location = new System.Drawing.Point(9, 58);
-            this.lblSource.Name = "lblSource";
-            this.lblSource.Size = new System.Drawing.Size(81, 13);
-            this.lblSource.TabIndex = 9;
-            this.lblSource.Text = "Default Source:";
-            // 
-            // cmbMonitor
-            // 
-            this.cmbMonitor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbMonitor.FormattingEnabled = true;
-            this.cmbMonitor.Location = new System.Drawing.Point(311, 55);
-            this.cmbMonitor.Name = "cmbMonitor";
-            this.cmbMonitor.Size = new System.Drawing.Size(34, 21);
-            this.cmbMonitor.TabIndex = 9;
-            this.cmbMonitor.SelectedIndexChanged += new System.EventHandler(this.cmbMonitor_SelectedIndexChanged);
-            // 
-            // lblMonitor
-            // 
-            this.lblMonitor.AutoSize = true;
-            this.lblMonitor.Location = new System.Drawing.Point(266, 58);
-            this.lblMonitor.Name = "lblMonitor";
-            this.lblMonitor.Size = new System.Drawing.Size(48, 13);
-            this.lblMonitor.TabIndex = 5;
-            this.lblMonitor.Text = "Monitor: ";
-            // 
-            // lblCopyright
-            // 
-            this.lblCopyright.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblCopyright.AutoSize = true;
-            this.lblCopyright.LinkArea = new System.Windows.Forms.LinkArea(11, 8);
-            this.lblCopyright.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.lblCopyright.Location = new System.Drawing.Point(11, 442);
-            this.lblCopyright.Name = "lblCopyright";
-            this.lblCopyright.Size = new System.Drawing.Size(302, 17);
-            this.lblCopyright.TabIndex = 16;
-            this.lblCopyright.TabStop = true;
-            this.lblCopyright.Text = "HAVolume © CyanLabs - Not affiliated with Home Assistant";
-            this.lblCopyright.UseCompatibleTextRendering = true;
-            this.lblCopyright.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lblCopyright_LinkClicked);
-            // 
-            // lblVersion
-            // 
-            this.lblVersion.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblVersion.AutoSize = true;
-            this.lblVersion.Location = new System.Drawing.Point(332, 442);
-            this.lblVersion.Name = "lblVersion";
-            this.lblVersion.Size = new System.Drawing.Size(40, 13);
-            this.lblVersion.TabIndex = 17;
-            this.lblVersion.Text = "1.0.0.0";
-            this.lblVersion.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
-            // lblPoll
-            // 
-            this.lblPoll.AutoSize = true;
-            this.lblPoll.Location = new System.Drawing.Point(11, 112);
-            this.lblPoll.Name = "lblPoll";
-            this.lblPoll.Size = new System.Drawing.Size(82, 13);
-            this.lblPoll.TabIndex = 0;
-            this.lblPoll.Text = "Polling Interval: ";
-            this.lblPoll.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
-            // lblPoll1
-            // 
-            this.lblPoll1.AutoSize = true;
-            this.lblPoll1.Location = new System.Drawing.Point(93, 142);
-            this.lblPoll1.Name = "lblPoll1";
-            this.lblPoll1.Size = new System.Drawing.Size(53, 13);
-            this.lblPoll1.TabIndex = 4;
-            this.lblPoll1.Text = "1 Second";
-            // 
-            // lblPoll10
-            // 
-            this.lblPoll10.AutoSize = true;
-            this.lblPoll10.Location = new System.Drawing.Point(290, 142);
-            this.lblPoll10.Name = "lblPoll10";
-            this.lblPoll10.Size = new System.Drawing.Size(64, 13);
-            this.lblPoll10.TabIndex = 5;
-            this.lblPoll10.Text = "10 Seconds";
             // 
             // chkOSD
             // 
@@ -281,11 +270,11 @@
             this.chkAutoOff.AutoSize = true;
             this.chkAutoOff.Checked = global::HA_Volume.Properties.Settings.Default.AutoOff;
             this.chkAutoOff.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::HA_Volume.Properties.Settings.Default, "AutoOff", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.chkAutoOff.Location = new System.Drawing.Point(195, 88);
+            this.chkAutoOff.Location = new System.Drawing.Point(200, 88);
             this.chkAutoOff.Name = "chkAutoOff";
-            this.chkAutoOff.Size = new System.Drawing.Size(150, 17);
+            this.chkAutoOff.Size = new System.Drawing.Size(149, 17);
             this.chkAutoOff.TabIndex = 11;
-            this.chkAutoOff.Text = "Automatically turn off AMP";
+            this.chkAutoOff.Text = "Auto turn off media_player";
             this.chkAutoOff.UseVisualStyleBackColor = true;
             // 
             // chkAutoOn
@@ -295,14 +284,15 @@
             this.chkAutoOn.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::HA_Volume.Properties.Settings.Default, "AutoOn", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.chkAutoOn.Location = new System.Drawing.Point(18, 88);
             this.chkAutoOn.Name = "chkAutoOn";
-            this.chkAutoOn.Size = new System.Drawing.Size(150, 17);
+            this.chkAutoOn.Size = new System.Drawing.Size(149, 17);
             this.chkAutoOn.TabIndex = 10;
-            this.chkAutoOn.Text = "Automatically turn on AMP";
+            this.chkAutoOn.Text = "Auto turn on media_player\r\n";
             this.chkAutoOn.UseVisualStyleBackColor = true;
             // 
             // cmbSource
             // 
             this.cmbSource.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::HA_Volume.Properties.Settings.Default, "DefaultInput", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.cmbSource.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbSource.FormattingEnabled = true;
             this.cmbSource.Location = new System.Drawing.Point(90, 55);
             this.cmbSource.Name = "cmbSource";
@@ -310,6 +300,15 @@
             this.cmbSource.TabIndex = 8;
             this.cmbSource.Text = global::HA_Volume.Properties.Settings.Default.DefaultInput;
             this.cmbSource.Click += new System.EventHandler(this.cmbSource_Click);
+            // 
+            // lblSource
+            // 
+            this.lblSource.AutoSize = true;
+            this.lblSource.Location = new System.Drawing.Point(9, 58);
+            this.lblSource.Name = "lblSource";
+            this.lblSource.Size = new System.Drawing.Size(81, 13);
+            this.lblSource.TabIndex = 9;
+            this.lblSource.Text = "Default Source:";
             // 
             // chkStartup
             // 
@@ -337,6 +336,25 @@
             this.chkUpdate.Text = "Autoupdate";
             this.chkUpdate.UseVisualStyleBackColor = true;
             // 
+            // cmbMonitor
+            // 
+            this.cmbMonitor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbMonitor.FormattingEnabled = true;
+            this.cmbMonitor.Location = new System.Drawing.Point(311, 55);
+            this.cmbMonitor.Name = "cmbMonitor";
+            this.cmbMonitor.Size = new System.Drawing.Size(34, 21);
+            this.cmbMonitor.TabIndex = 9;
+            this.cmbMonitor.SelectedIndexChanged += new System.EventHandler(this.cmbMonitor_SelectedIndexChanged);
+            // 
+            // lblMonitor
+            // 
+            this.lblMonitor.AutoSize = true;
+            this.lblMonitor.Location = new System.Drawing.Point(266, 58);
+            this.lblMonitor.Name = "lblMonitor";
+            this.lblMonitor.Size = new System.Drawing.Size(48, 13);
+            this.lblMonitor.TabIndex = 5;
+            this.lblMonitor.Text = "Monitor: ";
+            // 
             // chkKeybinds
             // 
             this.chkKeybinds.AutoSize = true;
@@ -350,50 +368,37 @@
             this.chkKeybinds.Text = "Activate Keybinds";
             this.chkKeybinds.UseVisualStyleBackColor = true;
             // 
-            // trackPoll
+            // lblCopyright
             // 
-            this.trackPoll.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::HA_Volume.Properties.Settings.Default, "PollRate", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.trackPoll.Location = new System.Drawing.Point(104, 108);
-            this.trackPoll.Minimum = 1;
-            this.trackPoll.Name = "trackPoll";
-            this.trackPoll.Size = new System.Drawing.Size(234, 45);
-            this.trackPoll.TabIndex = 4;
-            this.trackPoll.Value = global::HA_Volume.Properties.Settings.Default.PollRate;
+            this.lblCopyright.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblCopyright.AutoSize = true;
+            this.lblCopyright.LinkArea = new System.Windows.Forms.LinkArea(11, 8);
+            this.lblCopyright.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
+            this.lblCopyright.Location = new System.Drawing.Point(11, 428);
+            this.lblCopyright.Name = "lblCopyright";
+            this.lblCopyright.Size = new System.Drawing.Size(302, 17);
+            this.lblCopyright.TabIndex = 16;
+            this.lblCopyright.TabStop = true;
+            this.lblCopyright.Text = "HAVolume © CyanLabs - Not affiliated with Home Assistant";
+            this.lblCopyright.UseCompatibleTextRendering = true;
+            this.lblCopyright.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lblCopyright_LinkClicked);
             // 
-            // cmbEntity
+            // lblVersion
             // 
-            this.cmbEntity.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::HA_Volume.Properties.Settings.Default, "HAEntity", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.cmbEntity.FormattingEnabled = true;
-            this.cmbEntity.Location = new System.Drawing.Point(96, 76);
-            this.cmbEntity.Name = "cmbEntity";
-            this.cmbEntity.Size = new System.Drawing.Size(249, 21);
-            this.cmbEntity.TabIndex = 3;
-            this.cmbEntity.Text = global::HA_Volume.Properties.Settings.Default.HAEntity;
-            this.cmbEntity.Click += new System.EventHandler(this.cmbEntity_Click);
-            // 
-            // txtToken
-            // 
-            this.txtToken.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::HA_Volume.Properties.Settings.Default, "HAToken", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.txtToken.Location = new System.Drawing.Point(96, 50);
-            this.txtToken.Name = "txtToken";
-            this.txtToken.Size = new System.Drawing.Size(249, 20);
-            this.txtToken.TabIndex = 2;
-            this.txtToken.Text = global::HA_Volume.Properties.Settings.Default.HAToken;
-            // 
-            // txtURL
-            // 
-            this.txtURL.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::HA_Volume.Properties.Settings.Default, "HAURL", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.txtURL.Location = new System.Drawing.Point(96, 23);
-            this.txtURL.Name = "txtURL";
-            this.txtURL.Size = new System.Drawing.Size(249, 20);
-            this.txtURL.TabIndex = 1;
-            this.txtURL.Text = global::HA_Volume.Properties.Settings.Default.HAURL;
+            this.lblVersion.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblVersion.AutoSize = true;
+            this.lblVersion.Location = new System.Drawing.Point(332, 428);
+            this.lblVersion.Name = "lblVersion";
+            this.lblVersion.Size = new System.Drawing.Size(40, 13);
+            this.lblVersion.TabIndex = 17;
+            this.lblVersion.Text = "1.0.0.0";
+            this.lblVersion.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(384, 461);
+            this.ClientSize = new System.Drawing.Size(384, 447);
             this.Controls.Add(this.lblVersion);
             this.Controls.Add(this.lblCopyright);
             this.Controls.Add(this.grpGeneral);
@@ -412,10 +417,10 @@
             this.Load += new System.EventHandler(this.Settings_Load);
             this.grpHA.ResumeLayout(false);
             this.grpHA.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackPoll)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.imgLogo)).EndInit();
             this.grpGeneral.ResumeLayout(false);
             this.grpGeneral.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackPoll)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

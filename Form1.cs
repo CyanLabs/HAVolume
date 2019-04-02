@@ -20,6 +20,7 @@ namespace HA_Volume
         JavaScriptSerializer jsonSerializer = new JavaScriptSerializer();
         private IKeyboardMouseEvents _globalHook;
         public enum PowerModes { Resume = 1, StatusChange = 2, Suspend = 3 }
+        Form SettingsForm = new Settings();
 
         public Main()
         {
@@ -113,7 +114,7 @@ namespace HA_Volume
                 }
             }
         }
-
+        
         // Simple method to show OSD for 5 seconds then hide again without locking the UI Thread.
         void ShowOSD()
         {
@@ -126,9 +127,8 @@ namespace HA_Volume
         private void Main_Load(object sender, EventArgs e)
         {
             //If HAURL is not set, assume first launch and load settings.
-            if (String.IsNullOrEmpty(Properties.Settings.Default.HAURL))
+            if (String.IsNullOrEmpty(Properties.Settings.Default.HAURL) || !HAAPI.Validate_URL(Properties.Settings.Default.HAURL))
             {
-                Form SettingsForm = new Settings();
                 SettingsForm.Show();
                 this.Opacity = 0;
             
@@ -137,7 +137,7 @@ namespace HA_Volume
                 lblOSD.Text = "HA Volume - " + System.Windows.Forms.Application.ProductVersion;
 
                 //Check for Updates.
-                if (Properties.Settings.Default.Update) AutoUpdaterDotNET.AutoUpdater.Start("http://cyanlabs.net/raw/latest.php?product=" + System.Windows.Forms.Application.ProductName);
+                if (Properties.Settings.Default.Update) AutoUpdaterDotNET.AutoUpdater.Start("http://cyanlabs.net/api/latest.php?product=" + System.Windows.Forms.Application.ProductName);
 
                 //Set OSD to the correct screen based on settings.
                 int x = Screen.AllScreens[Properties.Settings.Default.Monitor].Bounds.Location.X + (Screen.AllScreens[Properties.Settings.Default.Monitor].WorkingArea.Width - this.Width);
@@ -148,13 +148,22 @@ namespace HA_Volume
                 HAData = HAAPI.GET(Properties.Settings.Default.HAEntity);
 
                 //Populates menu with all sources set in HA.
-                if (HAData["attributes"].ContainsKey("source_list"))
+                try
                 {
-                    foreach (string source in HAData["attributes"]["source_list"])
+                    if (HAData["attributes"].ContainsKey("source_list"))
                     {
-                        contextSources.Items.Add(source, null, contextsource);
+                        foreach (string source in HAData["attributes"]["source_list"])
+                        {
+                            contextSources.Items.Add(source, null, contextsource);
+                        }
                     }
                 }
+                catch (Microsoft.CSharp.RuntimeBinder.RuntimeBinderException)
+                {
+                    tmrPoll.Stop();
+                    SettingsForm.ShowDialog();
+                }
+                
 
                 //If Keybinds are enables it adds the keybind event handler.
                 if (Properties.Settings.Default.Keybinds)
@@ -239,7 +248,7 @@ namespace HA_Volume
         //Manual context menu entry to load settings form.
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Form SettingsForm = new Settings();
+            tmrPoll.Stop();
             SettingsForm.ShowDialog();
         }
 

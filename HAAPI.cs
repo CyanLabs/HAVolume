@@ -83,7 +83,7 @@ namespace HA_Volume
             {
                 if (webex.Status == WebExceptionStatus.ProtocolError)
                 {
-                    MessageBox.Show("Connection to Home Assistant has been lost, please check connection and try again.", "HA Volume - Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Unable to communicate with Home Assistant correctly, please confirm Home Assistant is running and that your settings are correct and that the entity you have selected is showing in Home Assistant.", "HA Volume - Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
                 return 99;
             }
@@ -155,6 +155,15 @@ namespace HA_Volume
             }
             POST("select_source", json);
         }
+
+        /// <summary>
+        /// Validates HA URL to make sure its a valid URL.
+        /// </summary>      
+        /// <param name="url">text to validate as URL.</param>
+        public static bool Validate_URL(string url)
+        {
+            Uri uriResult;
+            return Uri.TryCreate(url, UriKind.Absolute, out uriResult) && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
+        }
     }
 }
-        

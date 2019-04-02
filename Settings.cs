@@ -24,7 +24,7 @@ namespace HA_Volume
             Properties.Settings.Default.Monitor = cmbMonitor.SelectedIndex;
         }
 
-        //Populates the dropdown with all detected monitors and sets the application version label.
+        //Populates the dropdown with all detected monitors and sets the application version label, disables the dropdowns until valid URL is detected.
         private void Settings_Load(object sender, EventArgs e)
         {
             lblVersion.Text = Application.ProductVersion;
@@ -35,6 +35,17 @@ namespace HA_Volume
             }
 
             cmbMonitor.SelectedIndex = Properties.Settings.Default.Monitor;
+            if(txtURL.Text == "" || txtToken.Text == "" || HAAPI.Validate_URL(txtURL.Text))
+                {
+                    cmbEntity.Enabled = true;
+                    cmbSource.Enabled = true;
+                }
+                else
+                {
+                    MessageBox.Show("Invalid URL, please enter the URL in the following format [PROTO]://[IP or DOMAIN]:[PORT] for example http://192.168.1.10:8123", "HA Volume - Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    cmbEntity.Enabled = false;
+                    cmbSource.Enabled = false;
+                }
         }
 
         //Restarts application for changes to take afect.
@@ -42,6 +53,7 @@ namespace HA_Volume
         {
             Properties.Settings.Default.Save();
             Application.Restart();
+            Environment.Exit(0);
         }
 
         //Loads my website.
@@ -88,6 +100,22 @@ namespace HA_Volume
                 key.SetValue("HAVolume",AppDomain.CurrentDomain.BaseDirectory + AppDomain.CurrentDomain.FriendlyName);
             } else {
                 key.DeleteValue("HAVolume");
+            }
+        }
+
+        //Validates URL when textbox focus is lost.
+        private void txtURL_Leave(object sender, EventArgs e)
+        {
+            if (HAAPI.Validate_URL(txtURL.Text))
+            {
+                cmbEntity.Enabled = true;
+                cmbSource.Enabled = true;
+            }
+            else
+            {
+                MessageBox.Show("Invalid URL, please enter the URL in the following format [PROTO]://[IP or DOMAIN]:[PORT] for example http://192.168.1.10:8123", "HA Volume - Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cmbEntity.Enabled = false;
+                cmbSource.Enabled = false;
             }
         }
     }
