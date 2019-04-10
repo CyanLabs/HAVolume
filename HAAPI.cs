@@ -1,7 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Net;
+using System.Net.Http;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Web.Script.Serialization;
 using System.Windows.Forms;
 
@@ -22,21 +24,11 @@ namespace HA_Volume
             try
             {
                 if (String.IsNullOrEmpty(json)) json = new JavaScriptSerializer().Serialize(new { entity_id = Properties.Settings.Default.HAEntity });
-                var httpWebRequest = (HttpWebRequest)WebRequest.Create(Properties.Settings.Default.HAURL + "/api/services/media_player/" + servicename);
-                httpWebRequest.ContentType = "application/json";
-                httpWebRequest.Method = "POST";
-                httpWebRequest.Headers.Add("Authorization", "Bearer " + Properties.Settings.Default.HAToken);
 
-                using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+                using (var httpClient = new HttpClient())
                 {
-                    streamWriter.Write(json);
-                }
-
-                var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-
-                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
-                {
-                    var result = streamReader.ReadToEnd();
+                    httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + Properties.Settings.Default.HAToken);
+                    var response = httpClient.PostAsync(Properties.Settings.Default.HAURL + "/api/services/media_player/" + servicename, new StringContent(json, Encoding.UTF8, "application/json")).Result;
                 }
             }
             catch (WebException e)
@@ -57,37 +49,31 @@ namespace HA_Volume
             JavaScriptSerializer jsonSerializer = new JavaScriptSerializer();
             try
             {
-                dynamic httpWebRequest;
-                var result = "";
-                if (String.IsNullOrEmpty(entity))
+                using (var httpClient = new HttpClient())
                 {
-                    httpWebRequest = (HttpWebRequest)WebRequest.Create(Properties.Settings.Default.HAURL + "/api/states");
+                    httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + Properties.Settings.Default.HAToken);
+                    if(String.IsNullOrEmpty(entity))
+                    {
+                        var response = httpClient.GetStringAsync(new Uri(Properties.Settings.Default.HAURL + "/api/states")).Result;
+                        return jsonSerializer.Deserialize<dynamic>((response));
+                    }
+                    else
+                    {
+                        var response = httpClient.GetStringAsync(new Uri(Properties.Settings.Default.HAURL + "/api/states/" + entity)).Result;
+                        return jsonSerializer.Deserialize<dynamic>((response));
+                    }
                 }
-                else
-                {
-                    httpWebRequest = (HttpWebRequest)WebRequest.Create(Properties.Settings.Default.HAURL + "/api/states/" + entity);
-                }
-                httpWebRequest.ContentType = "application/json";
-                httpWebRequest.Method = "GET";
-                httpWebRequest.Headers.Add("Authorization", "Bearer " + Properties.Settings.Default.HAToken);
-
-                var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-
-                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
-                {
-                    result = streamReader.ReadToEnd();
-                }
-                return jsonSerializer.Deserialize<dynamic>((result));
             }
-            catch (WebException webex)
+            catch (WebException)
             {
-                if (webex.Status == WebExceptionStatus.ProtocolError)
-                {
-                    MessageBox.Show("Unable to communicate with Home Assistant correctly, please confirm Home Assistant is running and that your settings are correct and that the entity you have selected is showing in Home Assistant.", "HA Volume - Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
+                return 99;
+            }
+            catch (HttpRequestException)
+            {
                 return 99;
             }
         }
+
         /// <summary>
         /// Toggles Power of the media_player.
         /// </summary>

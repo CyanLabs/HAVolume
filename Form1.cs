@@ -78,24 +78,27 @@ namespace HA_Volume
         {
             PrevHAData = HAData;
             HAData = HAAPI.GET(Properties.Settings.Default.HAEntity);
+            
+            if (!HAData.ContainsKey("state")) { ntfyMain.ShowBalloonTip(5000, "HA Volume - Connection Lost!", "Unable to communicate with Home Assistant correctly, please confirm Home Assistant is running and accessible from this PC.",ToolTipIcon.Error); }
+
             // Update OSD
-            if (HAData["attributes"].ContainsKey("source")) { lblOSD.Text = HAData["attributes"]["source"]; } else { lblOSD.Text = "Amp Powered Off!"; }
+                if (HAData.ContainsKey("attributes") && HAData["attributes"].ContainsKey("source")) { lblOSD.Text = HAData["attributes"]["source"]; } else { lblOSD.Text = "Amp Powered Off!"; }
 
             // Update Power Icon
-            if (HAData["state"] == "on") { this.imgPower.Image = Properties.Resources.on; } else { this.imgPower.Image = Properties.Resources.off; }
+            if (HAData.ContainsKey("state") && HAData["state"] == "on") { this.imgPower.Image = Properties.Resources.on; } else { this.imgPower.Image = Properties.Resources.off; }
 
             // Update Mute Icon
-            if (HAData["attributes"].ContainsKey("is_volume_muted"))
+            if (HAData.ContainsKey("attributes") && HAData["attributes"].ContainsKey("is_volume_muted"))
             {
                 if (HAData["attributes"]["is_volume_muted"]) { this.imgMute.Image = Properties.Resources.mute; } else { this.imgMute.Image = Properties.Resources.vol; }
             }
 
             // Update Slider and Volume Label
-            if (HAData["attributes"].ContainsKey("volume_level"))
+            if (HAData.ContainsKey("attributes") && HAData["attributes"].ContainsKey("volume_level"))
             {
                 int volaspercent = Convert.ToInt32(HAData["attributes"]["volume_level"] * 100);
                 sliderVol.Value = volaspercent;
-                lblVol.Text = volaspercent.ToString() + "%";
+                lblVol.Text = volaspercent.ToString();
             }
 
             // Show OSD when change in volume or source detected
@@ -143,6 +146,15 @@ namespace HA_Volume
 
         private void Main_Load(object sender, EventArgs e)
         {
+            foreach (string arg in Environment.GetCommandLineArgs())
+            {
+                if (arg == "/updated")
+                {
+                    Properties.Settings.Default.Upgrade();
+                    Properties.Settings.Default.Save();
+                }
+            }
+
             SystemEvents.PowerModeChanged += OnPowerModeChanged;
             this.Opacity = 0;
 
@@ -167,7 +179,6 @@ namespace HA_Volume
 
                 //Runs a manual poll to prevent crash before timer has run.
                 HAData = HAAPI.GET(Properties.Settings.Default.HAEntity);
-
                 //Populates menu with all sources set in HA.
                 try
                 {

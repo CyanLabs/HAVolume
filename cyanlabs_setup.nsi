@@ -33,10 +33,11 @@ FunctionEnd
 !define MUI_FINISHPAGE_SHOWREADME_TEXT "Create Desktop Shortcut"
 !define MUI_FINISHPAGE_SHOWREADME_FUNCTION createdesktopicon
 !define MUI_FINISHPAGE_RUN "$INSTDIR\${PRODUCT_NAME}.exe"
+!define MUI_FINISHPAGE_RUN_PARAMETERS "/updated"
 !define MUI_FINISHPAGE_RUN_TEXT "Launch ${PRODUCT_NAME}"
 !define MUI_FINISHPAGE_RUN_NOTCHECKED
 !define MUI_FINISHPAGE_LINK "View online documentation"
-!define MUI_FINISHPAGE_LINK_LOCATION "https://cyanlabs.net/applications/${PRODUCT_NAME}"
+!define MUI_FINISHPAGE_LINK_LOCATION "https://cyanlabs.net/applications/HA-Volume/"
 !define MUI_FINISHPAGE_CANCEL_ENABLED
 !define /date MyTIMESTAMP "%d-%m-%Y"
 
