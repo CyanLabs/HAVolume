@@ -25,6 +25,11 @@ namespace HA_Volume
             {
                 if (String.IsNullOrEmpty(json)) json = new JavaScriptSerializer().Serialize(new { entity_id = Properties.Settings.Default.HAEntity });
 
+                HttpClientHandler handler = new HttpClientHandler()
+                {
+                    AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
+                };
+
                 using (var httpClient = new HttpClient())
                 {
                     httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + Properties.Settings.Default.HAToken);
@@ -49,7 +54,12 @@ namespace HA_Volume
             JavaScriptSerializer jsonSerializer = new JavaScriptSerializer();
             try
             {
-                using (var httpClient = new HttpClient())
+                HttpClientHandler handler = new HttpClientHandler()
+                {
+                    AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
+                };
+
+                using (var httpClient = new HttpClient(handler))
                 {
                     httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + Properties.Settings.Default.HAToken);
                     if(String.IsNullOrEmpty(entity))
@@ -59,6 +69,7 @@ namespace HA_Volume
                     }
                     else
                     {
+                        
                         var response = httpClient.GetStringAsync(new Uri(Properties.Settings.Default.HAURL + "/api/states/" + entity)).Result;
                         return jsonSerializer.Deserialize<dynamic>((response));
                     }
