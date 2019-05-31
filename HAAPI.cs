@@ -33,7 +33,7 @@ namespace HA_Volume
                 using (var httpClient = new HttpClient())
                 {
                     httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + Properties.Settings.Default.HAToken);
-                    var response = httpClient.PostAsync(Properties.Settings.Default.HAURL + "/api/services/media_player/" + servicename, new StringContent(json, Encoding.UTF8, "application/json")).Result;
+                    var response = httpClient.PostAsync(Properties.Settings.Default.HAURL + "/api/services/" + servicename, new StringContent(json, Encoding.UTF8, "application/json")).Result;
                 }
             }
             catch (WebException e)
@@ -88,17 +88,17 @@ namespace HA_Volume
         /// <summary>
         /// Toggles Power of the media_player.
         /// </summary>
-        public static void Power() => POST("toggle");
+        public static void Power() => POST("media_player/toggle");
 
         /// <summary>
         /// Increases volume of the media_player.
         /// </summary>
-        public static void Volume_Up() => POST("volume_up");
+        public static void Volume_Up() => POST("media_player/volume_up");
 
         /// <summary>
         /// Decreases volume of the media_player.
         /// </summary>
-        public static void Volume_Down() => POST("volume_down");
+        public static void Volume_Down() => POST("media_player/volume_down");
 
         /// <summary>
         /// Sets volume of the media_player.
@@ -111,7 +111,7 @@ namespace HA_Volume
                 entity_id = Properties.Settings.Default.HAEntity,
                 volume_level = volume
             });
-            POST("volume_set", json);
+            POST("media_player/volume_set", json);
         }
         /// <summary>
         /// Detects mute state and toggles mute of the media_player.
@@ -124,7 +124,7 @@ namespace HA_Volume
                 entity_id = Properties.Settings.Default.HAEntity,
                 is_volume_muted = !state
             });
-            POST("volume_mute", json);
+            POST("media_player/volume_mute", json);
         }
 
         /// <summary>
@@ -150,7 +150,7 @@ namespace HA_Volume
                     source = source
                 });
             }
-            POST("select_source", json);
+            POST("media_player/select_source", json);
         }
 
         /// <summary>
@@ -161,6 +161,15 @@ namespace HA_Volume
         {
             Uri uriResult;
             return Uri.TryCreate(url, UriKind.Absolute, out uriResult) && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
+        }
+
+        /// <summary>
+        /// Turns ON additional seitch
+        /// </summary>
+        public static void Toggle_Switch(string action, string additionalswitch)
+        {
+            string json = new JavaScriptSerializer().Serialize(new {entity_id = additionalswitch});
+            POST("switch/" + action, json);
         }
     }
 }

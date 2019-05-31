@@ -67,6 +67,19 @@ namespace HA_Volume
                             Task.Factory.StartNew(() => HAAPI.Power());
                         }
                         break;
+
+                    // Pressing the Scroll key without Shift will turn on additional switch, with Shift it turns off additional switch.
+                    case System.Windows.Forms.Keys.Scroll:
+                        e.Handled = true;
+                        if (e.Modifiers == System.Windows.Forms.Keys.Shift)
+                        {
+                            Task.Factory.StartNew(() => HAAPI.Toggle_Switch("turn_off", Properties.Settings.Default.StopSwitch));
+                        }
+                        else
+                        {
+                            Task.Factory.StartNew(() => HAAPI.Toggle_Switch("turn_on", Properties.Settings.Default.StartSwitch));
+                        }
+                        break;
                     default:
                         break;
                 }
@@ -82,7 +95,7 @@ namespace HA_Volume
             if (!HAData.ContainsKey("state")) { ntfyMain.ShowBalloonTip(5000, "HA Volume - Connection Lost!", "Unable to communicate with Home Assistant correctly, please confirm Home Assistant is running and accessible from this PC.",ToolTipIcon.Error); }
 
             // Update OSD
-                if (HAData.ContainsKey("attributes") && HAData["attributes"].ContainsKey("source")) { lblOSD.Text = HAData["attributes"]["source"]; } else { lblOSD.Text = "Amp Powered Off!"; }
+            if (HAData.ContainsKey("attributes") && HAData["attributes"].ContainsKey("source")) { lblOSD.Text = HAData["attributes"]["source"]; } else { lblOSD.Text = "Amp Powered Off!"; }
 
             // Update Power Icon
             if (HAData.ContainsKey("state") && HAData["state"] == "on") { this.imgPower.Image = Properties.Resources.on; } else { this.imgPower.Image = Properties.Resources.off; }
@@ -126,6 +139,10 @@ namespace HA_Volume
                         }
                     }
                 }
+            }
+            catch (System.Collections.Generic.KeyNotFoundException)
+            {
+
             }
             catch (Microsoft.CSharp.RuntimeBinder.RuntimeBinderException)
             {
@@ -223,6 +240,10 @@ namespace HA_Volume
             {
                 if (HAData["state"] == "off") { Task.Factory.StartNew(() => HAAPI.Power()); }
             }
+
+            if (!String.IsNullOrEmpty(Properties.Settings.Default.StartSwitch)) {
+                Task.Factory.StartNew(() => HAAPI.Toggle_Switch("turn_on", Properties.Settings.Default.StartSwitch));
+            }
         }
 
         //Turns off media_player if not already off and if set to do so in settings.
@@ -233,6 +254,10 @@ namespace HA_Volume
                 if (HAData["state"] == "on") { Task.Factory.StartNew(() => HAAPI.Power()); }
             }
 
+            if (!String.IsNullOrEmpty(Properties.Settings.Default.StopSwitch))
+            {
+                Task.Factory.StartNew(() => HAAPI.Toggle_Switch("turn_off", Properties.Settings.Default.StopSwitch));
+            }
         }
 
         //Detects computer suspend and resume and if set sets power of media_player accordingly.
@@ -247,7 +272,7 @@ namespace HA_Volume
                         break;
 
                     case Microsoft.Win32.PowerModes.Suspend:
-                        StartupCommands();
+                        ShutdownCommands();
                         break;
                 }
             }

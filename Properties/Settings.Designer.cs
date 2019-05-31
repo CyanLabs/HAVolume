@@ -202,5 +202,29 @@ namespace HA_Volume.Properties {
                 this["UpgradeRequired"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string StartSwitch {
+            get {
+                return ((string)(this["StartSwitch"]));
+            }
+            set {
+                this["StartSwitch"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string StopSwitch {
+            get {
+                return ((string)(this["StopSwitch"]));
+            }
+            set {
+                this["StopSwitch"] = value;
+            }
+        }
     }
 }

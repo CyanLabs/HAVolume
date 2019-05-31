@@ -57,10 +57,17 @@
             this.chkKeybinds = new System.Windows.Forms.CheckBox();
             this.lblCopyright = new System.Windows.Forms.LinkLabel();
             this.lblVersion = new System.Windows.Forms.Label();
+            this.grpAdvanced = new System.Windows.Forms.GroupBox();
+            this.cmbApplicationStop = new System.Windows.Forms.ComboBox();
+            this.cmbApplicationStart = new System.Windows.Forms.ComboBox();
+            this.lblApplicationStop = new System.Windows.Forms.Label();
+            this.lblApplicationStart = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.grpHA.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackPoll)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imgLogo)).BeginInit();
             this.grpGeneral.SuspendLayout();
+            this.grpAdvanced.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblTitle
@@ -127,7 +134,6 @@
             // cmbEntity
             // 
             this.cmbEntity.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::HA_Volume.Properties.Settings.Default, "HAEntity", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.cmbEntity.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbEntity.FormattingEnabled = true;
             this.cmbEntity.Location = new System.Drawing.Point(96, 76);
             this.cmbEntity.Name = "cmbEntity";
@@ -207,7 +213,7 @@
             // 
             // grpGeneral
             // 
-            this.grpGeneral.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.grpGeneral.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.grpGeneral.Controls.Add(this.chkOSD);
             this.grpGeneral.Controls.Add(this.chkMute);
@@ -292,7 +298,6 @@
             // cmbSource
             // 
             this.cmbSource.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::HA_Volume.Properties.Settings.Default, "DefaultInput", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.cmbSource.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbSource.FormattingEnabled = true;
             this.cmbSource.Location = new System.Drawing.Point(90, 55);
             this.cmbSource.Name = "cmbSource";
@@ -374,7 +379,7 @@
             this.lblCopyright.AutoSize = true;
             this.lblCopyright.LinkArea = new System.Windows.Forms.LinkArea(11, 8);
             this.lblCopyright.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.lblCopyright.Location = new System.Drawing.Point(11, 428);
+            this.lblCopyright.Location = new System.Drawing.Point(11, 562);
             this.lblCopyright.Name = "lblCopyright";
             this.lblCopyright.Size = new System.Drawing.Size(302, 17);
             this.lblCopyright.TabIndex = 16;
@@ -387,18 +392,85 @@
             // 
             this.lblVersion.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.lblVersion.AutoSize = true;
-            this.lblVersion.Location = new System.Drawing.Point(332, 428);
+            this.lblVersion.Location = new System.Drawing.Point(332, 562);
             this.lblVersion.Name = "lblVersion";
             this.lblVersion.Size = new System.Drawing.Size(40, 13);
             this.lblVersion.TabIndex = 17;
             this.lblVersion.Text = "1.0.0.0";
             this.lblVersion.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
+            // grpAdvanced
+            // 
+            this.grpAdvanced.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.grpAdvanced.Controls.Add(this.cmbApplicationStop);
+            this.grpAdvanced.Controls.Add(this.cmbApplicationStart);
+            this.grpAdvanced.Controls.Add(this.lblApplicationStop);
+            this.grpAdvanced.Controls.Add(this.lblApplicationStart);
+            this.grpAdvanced.Controls.Add(this.label1);
+            this.grpAdvanced.Location = new System.Drawing.Point(13, 424);
+            this.grpAdvanced.Name = "grpAdvanced";
+            this.grpAdvanced.Size = new System.Drawing.Size(359, 127);
+            this.grpAdvanced.TabIndex = 32;
+            this.grpAdvanced.TabStop = false;
+            this.grpAdvanced.Text = "Advanced";
+            // 
+            // cmbApplicationStop
+            // 
+            this.cmbApplicationStop.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::HA_Volume.Properties.Settings.Default, "StopSwitch", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.cmbApplicationStop.FormattingEnabled = true;
+            this.cmbApplicationStop.Location = new System.Drawing.Point(122, 90);
+            this.cmbApplicationStop.Name = "cmbApplicationStop";
+            this.cmbApplicationStop.Size = new System.Drawing.Size(215, 21);
+            this.cmbApplicationStop.TabIndex = 4;
+            this.cmbApplicationStop.Text = global::HA_Volume.Properties.Settings.Default.StopSwitch;
+            this.cmbApplicationStop.Click += new System.EventHandler(this.cmbApplicationStop_Click);
+            // 
+            // cmbApplicationStart
+            // 
+            this.cmbApplicationStart.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::HA_Volume.Properties.Settings.Default, "StartSwitch", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.cmbApplicationStart.FormattingEnabled = true;
+            this.cmbApplicationStart.Location = new System.Drawing.Point(122, 54);
+            this.cmbApplicationStart.Name = "cmbApplicationStart";
+            this.cmbApplicationStart.Size = new System.Drawing.Size(215, 21);
+            this.cmbApplicationStart.TabIndex = 4;
+            this.cmbApplicationStart.Text = global::HA_Volume.Properties.Settings.Default.StartSwitch;
+            this.cmbApplicationStart.SelectedIndexChanged += new System.EventHandler(this.cmbApplicationStart_SelectedIndexChanged);
+            this.cmbApplicationStart.Click += new System.EventHandler(this.cmbApplicationStart_Click);
+            // 
+            // lblApplicationStop
+            // 
+            this.lblApplicationStop.AutoSize = true;
+            this.lblApplicationStop.Location = new System.Drawing.Point(26, 93);
+            this.lblApplicationStop.Name = "lblApplicationStop";
+            this.lblApplicationStop.Size = new System.Drawing.Size(85, 13);
+            this.lblApplicationStop.TabIndex = 1;
+            this.lblApplicationStop.Text = "Application Exit: ";
+            // 
+            // lblApplicationStart
+            // 
+            this.lblApplicationStart.AutoSize = true;
+            this.lblApplicationStart.Location = new System.Drawing.Point(26, 57);
+            this.lblApplicationStart.Name = "lblApplicationStart";
+            this.lblApplicationStart.Size = new System.Drawing.Size(90, 13);
+            this.lblApplicationStart.TabIndex = 1;
+            this.lblApplicationStart.Text = "Application Start: ";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(22, 25);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(320, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Additional switches turned on/off when HA Volume starts or closes";
+            // 
             // Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(384, 447);
+            this.ClientSize = new System.Drawing.Size(384, 581);
+            this.Controls.Add(this.grpAdvanced);
             this.Controls.Add(this.lblVersion);
             this.Controls.Add(this.lblCopyright);
             this.Controls.Add(this.grpGeneral);
@@ -421,6 +493,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.imgLogo)).EndInit();
             this.grpGeneral.ResumeLayout(false);
             this.grpGeneral.PerformLayout();
+            this.grpAdvanced.ResumeLayout(false);
+            this.grpAdvanced.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -456,5 +530,11 @@
         private System.Windows.Forms.Label lblPoll1;
         private System.Windows.Forms.TrackBar trackPoll;
         private System.Windows.Forms.Label lblPoll;
+        private System.Windows.Forms.GroupBox grpAdvanced;
+        private System.Windows.Forms.Label lblApplicationStop;
+        private System.Windows.Forms.Label lblApplicationStart;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox cmbApplicationStop;
+        private System.Windows.Forms.ComboBox cmbApplicationStart;
     }
 }

@@ -36,16 +36,16 @@ namespace HA_Volume
 
             cmbMonitor.SelectedIndex = Properties.Settings.Default.Monitor;
             if(txtURL.Text == "" || txtToken.Text == "" || HAAPI.Validate_URL(txtURL.Text))
-                {
-                    cmbEntity.Enabled = true;
-                    cmbSource.Enabled = true;
-                }
-                else
-                {
-                    MessageBox.Show("Invalid URL, please enter the URL in the following format [PROTO]://[IP or DOMAIN]:[PORT] for example http://192.168.1.10:8123", "HA Volume - Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    cmbEntity.Enabled = false;
-                    cmbSource.Enabled = false;
-                }
+            {
+                cmbEntity.Enabled = true;
+                cmbSource.Enabled = true;
+            }
+            else
+            {
+                MessageBox.Show("Invalid URL, please enter the URL in the following format [PROTO]://[IP or DOMAIN]:[PORT] for example http://192.168.1.10:8123", "HA Volume - Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cmbEntity.Enabled = false;
+                cmbSource.Enabled = false;
+            }
         }
 
         //Restarts application for changes to take afect.
@@ -117,6 +117,48 @@ namespace HA_Volume
                 cmbEntity.Enabled = false;
                 cmbSource.Enabled = false;
             }
+        }
+
+        private void cmbApplicationStart_Click(object sender, EventArgs e)
+        {
+            HAData = HAAPI.GET();
+            foreach (dynamic item in HAData)
+            {
+                if (item.ContainsKey("entity_id"))
+                {
+                    string entityid = item["entity_id"];
+                    if (entityid.Contains("switch."))
+                    {
+                        if (!cmbApplicationStart.Items.Contains(item["entity_id"])) cmbApplicationStart.Items.Add(item["entity_id"]);
+                    }
+                }
+            }
+        }
+
+        private void cmbApplicationStop_Click(object sender, EventArgs e)
+        {
+            HAData = HAAPI.GET();
+            foreach (dynamic item in HAData)
+            {
+                if (item.ContainsKey("entity_id"))
+                {
+                    string entityid = item["entity_id"];
+                    if (entityid.Contains("switch."))
+                    {
+                        if (!cmbApplicationStop.Items.Contains(item["entity_id"])) cmbApplicationStop.Items.Add(item["entity_id"]);
+                    }
+                }
+            }
+        }
+
+        private void cmbApplicationStart_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            cmbApplicationStart.Text = Properties.Settings.Default.StartSwitch;
+        }
+
+        private void cmbApplicationStop_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            cmbApplicationStop.Text = Properties.Settings.Default.StopSwitch;
         }
     }
 }
