@@ -57,7 +57,7 @@ namespace HA_Volume
                         }
                         break;
 
-                    // Pressing the Pause key without Shift will toggle power, with Shift it changes to the DefaultInput.
+                    // Pressing the Pause key without Shift will toggle power, with Shift it changes to the OnInput.
                     case System.Windows.Forms.Keys.Pause:
                         e.Handled = true;
                         if (e.Modifiers == System.Windows.Forms.Keys.Shift)
@@ -236,23 +236,39 @@ namespace HA_Volume
         //Turns on media_player if not already on and if set to do so in settings.
         void StartupCommands()
         {
-            if (Properties.Settings.Default.AutoOff)
+            if (Properties.Settings.Default.AutoOn)
             {
                 if (HAData["state"] == "off") { Task.Factory.StartNew(() => HAAPI.Power()); }
             }
 
+            if (Properties.Settings.Default.AutoOnSource)
+            {
+                Task.Factory.StartNew(() => HAAPI.Set_Input(Properties.Settings.Default.OnInput));
+            }
+
             if (!String.IsNullOrEmpty(Properties.Settings.Default.StartSwitch)) {
                 Task.Factory.StartNew(() => HAAPI.Toggle_Switch("turn_on", Properties.Settings.Default.StartSwitch));
+            }
+
+            if (!String.IsNullOrEmpty(Properties.Settings.Default.ExtraApplication))
+            {
+                Process.Start(Properties.Settings.Default.ExtraApplication, Properties.Settings.Default.ExtraApplicationArgs);
             }
         }
 
         //Turns off media_player if not already off and if set to do so in settings.
         void ShutdownCommands()
         {
-            if (Properties.Settings.Default.AutoOn)
+            if (Properties.Settings.Default.AutoOffSource)
+            {
+                if (HAData["state"] == "on") { Task.Factory.StartNew(() => HAAPI.Set_Input(Properties.Settings.Default.OffInput)); }
+            }
+
+            if (Properties.Settings.Default.AutoOff)
             {
                 if (HAData["state"] == "on") { Task.Factory.StartNew(() => HAAPI.Power()); }
             }
+
 
             if (!String.IsNullOrEmpty(Properties.Settings.Default.StopSwitch))
             {
@@ -290,7 +306,7 @@ namespace HA_Volume
         //Toggles power when power icon clicked.
         private void imgPower_Click(object sender, EventArgs e) => Task.Factory.StartNew(() => HAAPI.Power());
 
-        //If left click show context menu with all available HA sources, if right click automatically change to DefaultInput.
+        //If left click show context menu with all available HA sources, if right click automatically change to OnInput.
         private void imgInput_MouseClick(object sender, MouseEventArgs e)
         {
             switch (e.Button)

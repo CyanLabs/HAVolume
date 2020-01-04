@@ -38,13 +38,13 @@ namespace HA_Volume
             if(txtURL.Text == "" || txtToken.Text == "" || HAAPI.Validate_URL(txtURL.Text))
             {
                 cmbEntity.Enabled = true;
-                cmbSource.Enabled = true;
+                cmbOnSource.Enabled = true;
             }
             else
             {
                 MessageBox.Show("Invalid URL, please enter the URL in the following format [PROTO]://[IP or DOMAIN]:[PORT] for example http://192.168.1.10:8123", "HA Volume - Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 cmbEntity.Enabled = false;
-                cmbSource.Enabled = false;
+                cmbOnSource.Enabled = false;
             }
         }
 
@@ -79,14 +79,28 @@ namespace HA_Volume
         }
 
         //Populates the source dropdown with all available HA sources.
-        private void cmbSource_Click(object sender, EventArgs e)
+        private void cmbOnSource_Click(object sender, EventArgs e)
         {
             HAData = HAAPI.GET(Properties.Settings.Default.HAEntity);
             if (HAData["attributes"].ContainsKey("source_list"))
             {
                 foreach (string source in HAData["attributes"]["source_list"])
                 {
-                    if (!cmbSource.Items.Contains(source)) cmbSource.Items.Add(source);
+                    if (!cmbOnSource.Items.Contains(source)) cmbOnSource.Items.Add(source);
+
+                }
+            }
+        }
+
+        //Populates the source dropdown with all available HA sources.
+        private void cmbOffSource_Click(object sender, EventArgs e)
+        {
+            HAData = HAAPI.GET(Properties.Settings.Default.HAEntity);
+            if (HAData["attributes"].ContainsKey("source_list"))
+            {
+                foreach (string source in HAData["attributes"]["source_list"])
+                {
+                    if (!cmbOffSource.Items.Contains(source)) cmbOffSource.Items.Add(source);
 
                 }
             }
@@ -109,13 +123,13 @@ namespace HA_Volume
             if (HAAPI.Validate_URL(txtURL.Text))
             {
                 cmbEntity.Enabled = true;
-                cmbSource.Enabled = true;
+                cmbOnSource.Enabled = true;
             }
             else
             {
                 MessageBox.Show("Invalid URL, please enter the URL in the following format [PROTO]://[IP or DOMAIN]:[PORT] for example http://192.168.1.10:8123", "HA Volume - Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 cmbEntity.Enabled = false;
-                cmbSource.Enabled = false;
+                cmbOnSource.Enabled = false;
             }
         }
 
@@ -159,6 +173,28 @@ namespace HA_Volume
         private void cmbApplicationStop_SelectedIndexChanged(object sender, EventArgs e)
         {
             cmbApplicationStop.Text = Properties.Settings.Default.StopSwitch;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog1 = new OpenFileDialog
+            {
+                Title = "Browse Exe Files",
+                CheckFileExists = true,
+                CheckPathExists = true,
+                DefaultExt = "txt",
+                Filter = "executable files (*.bat,*.cmd,*.exe,*.lnk)|*.bat;*.cmd;*.exe;*.lnk",
+            };
+
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                txtExtraApplication.Text = openFileDialog1.FileName;
+            }
+            else
+            {
+                txtExtraApplication.Text = "";
+                txtExtraApplicationArgs.Text = "";
+            }
         }
     }
 }

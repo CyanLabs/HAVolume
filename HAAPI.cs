@@ -128,7 +128,7 @@ namespace HA_Volume
         }
 
         /// <summary>
-        /// Changes source of media_player, if no source set will use "defaultinput"
+        /// Changes source of media_player, if no source set will use "OnInput"
         /// </summary>      
         /// <param name="state">Optional: string containing the source you want to switch to.</param>
         public static void Set_Input([Optional] string source)
@@ -139,7 +139,7 @@ namespace HA_Volume
                 json = new JavaScriptSerializer().Serialize(new
                 {
                     entity_id = Properties.Settings.Default.HAEntity,
-                    source = Properties.Settings.Default.DefaultInput
+                    source = Properties.Settings.Default.OnInput
                 });
             }
             else

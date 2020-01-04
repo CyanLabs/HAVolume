@@ -14,7 +14,7 @@
     <Setting Name="HAEntity" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="DefaultInput" Type="System.String" Scope="User">
+    <Setting Name="OnInput" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="StartWithWindows" Type="System.Boolean" Scope="User">
@@ -51,6 +51,21 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="StopSwitch" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="AutoOnSource" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="OffInput" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="AutoOffSource" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="ExtraApplication" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="ExtraApplicationArgs" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
   </Settings>

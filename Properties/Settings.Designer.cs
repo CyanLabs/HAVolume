@@ -12,7 +12,7 @@ namespace HA_Volume.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.9.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.3.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -74,12 +74,12 @@ namespace HA_Volume.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string DefaultInput {
+        public string OnInput {
             get {
-                return ((string)(this["DefaultInput"]));
+                return ((string)(this["OnInput"]));
             }
             set {
-                this["DefaultInput"] = value;
+                this["OnInput"] = value;
             }
         }
         
@@ -224,6 +224,66 @@ namespace HA_Volume.Properties {
             }
             set {
                 this["StopSwitch"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool AutoOnSource {
+            get {
+                return ((bool)(this["AutoOnSource"]));
+            }
+            set {
+                this["AutoOnSource"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string OffInput {
+            get {
+                return ((string)(this["OffInput"]));
+            }
+            set {
+                this["OffInput"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool AutoOffSource {
+            get {
+                return ((bool)(this["AutoOffSource"]));
+            }
+            set {
+                this["AutoOffSource"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string ExtraApplication {
+            get {
+                return ((string)(this["ExtraApplication"]));
+            }
+            set {
+                this["ExtraApplication"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string ExtraApplicationArgs {
+            get {
+                return ((string)(this["ExtraApplicationArgs"]));
+            }
+            set {
+                this["ExtraApplicationArgs"] = value;
             }
         }
     }
